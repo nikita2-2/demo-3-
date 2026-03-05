@@ -3,12 +3,12 @@ package com.example.demo;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity  // Говорит Spring: это будет таблица в базе данных
-@Table(name = "users")  // Имя таблицы
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id  // Первичный ключ
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Автоинкремент
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @PrePersist
     protected void onCreate() {
@@ -38,7 +38,7 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
 
-    // Геттеры и сеттеры (Alt+Insert → Getter and Setter → выбрать все)
+
     public Long getId() {
         return id;
     }

@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@RestController  // Этот класс будет принимать веб-запросы
+@RestController
 @RequestMapping("/api/users")  // Все адреса начинаются с /api/users
 public class UserController {
 
-    @Autowired  // Spring сам создаст и передаст репозиторий
+    @Autowired
     private UserRepository userRepository;
 
     // POST /api/users - создать нового пользователя

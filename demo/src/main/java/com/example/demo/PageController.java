@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@Controller  // Используем @Controller, а не @RestController
+@Controller
 public class PageController {
-    @Autowired  // <-- ДОБАВИТЬ ЭТУ СТРОКУ
+    @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/welcome")
     public String welcome(Model model) {
-        // Добавляем данные в модель (они попадут в HTML)
-        model.addAttribute("name", "Никита");  // Можно заменить на любое имя
+
+        model.addAttribute("name", "Никита");
         model.addAttribute("time", LocalDateTime.now().format(
                 DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
         ));
