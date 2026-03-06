@@ -27,10 +27,10 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // Конструктор по умолчанию (обязателен для JPA)
+
     public User() {}
 
-    // Конструктор для удобного создания
+
     public User(String name, String email, Integer age) {
         this.name = name;
         this.email = email;
