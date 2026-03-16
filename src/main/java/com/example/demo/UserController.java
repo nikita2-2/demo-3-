@@ -1,88 +1,159 @@
 package com.example.demo;
 
+import com.example.demo.UserDto;  // 👈 Импортировали наш DTO
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;  // 👈 Для ResponseEntity
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")  // Все адреса начинаются с /api/users
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
 
-    // POST /api/users - создать нового пользователя
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        // @RequestBody берет JSON из тела запроса и превращает в User
-        return userRepository.save(user);  // Сохраняем в БД
+
+    private UserDto convertToDto(User user) {
+        return new UserDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getAge()
+                // createdAt не передаем - его нет в DTO!
+        );
     }
 
-    // GET /api/users - получить всех пользователей
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userRepository.findAll();  // SELECT * FROM users
-    }
 
-    // GET /api/users/5 - получить пользователя по id
+
+    // ✅ СТАЛО:
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        // @PathVariable берет id из адреса (из {id})
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Пользователь с id " + id + " не найден"));
-    }
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        // 1. Пробуем найти пользователя
+        User user = userRepository.findById(id).orElse(null);
 
-    // GET /api/users/email/anna@mail.com - по email
-    @GetMapping("/email/{email}")
-    public User getUserByEmail(@PathVariable String email) {
-        User user = userRepository.findByEmail(email);
+        // 2. Если нет - 404 Not Found
         if (user == null) {
-            throw new RuntimeException("Пользователь с email " + email + " не найден");
+            return ResponseEntity.notFound().build();  // 👈 Статус 404
         }
-        return user;
+
+       // превращаем в DTO (без createdAt)
+        UserDto dto = convertToDto(user);
+
+        // ответ
+        return ResponseEntity.ok(dto);  // 👈 Статус 200
     }
 
-    // GET /api/users/name/Анна - по имени
+
+    @PostMapping
+    public ResponseEntity<UserDto> createUser(@RequestBody User user) {
+        // Сохраняем пользователя
+        User savedUser = userRepository.save(user);
+
+        // Превращаем в DTO
+        UserDto dto = convertToDto(savedUser);
+
+        // Возвращаем
+        return ResponseEntity.status(201).body(dto);
+    }
+
+
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        // 1. Получаем всех пользователей
+        List<User> users = userRepository.findAll();
+
+        // 2. Превращаем каждого User в UserDto
+        List<UserDto> dtos = users.stream()
+                .map(this::convertToDto)  // для каждого user вызываем convertToDto
+                .toList();                // собираем в список
+
+        // 3. Возвращаем с 200 OK
+        return ResponseEntity.ok(dtos);
+    }
+
+    // =========== GET по email ===========
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
+        User user = userRepository.findByEmail(email);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        UserDto dto = convertToDto(user);
+        return ResponseEntity.ok(dto);
+    }
+
+    // =========== GET по имени ===========
     @GetMapping("/name/{name}")
-    public List<User> getUsersByName(@PathVariable String name) {
-        return userRepository.findByName(name);
+    public ResponseEntity<List<UserDto>> getUsersByName(@PathVariable String name) {
+        List<User> users = userRepository.findByName(name);
+
+        List<UserDto> dtos = users.stream()
+                .map(this::convertToDto)
+                .toList();
+
+        return ResponseEntity.ok(dtos);
     }
 
-    // GET /api/users/age/older/25 - старше возраста
+    // =========== GET старше возраста ===========
     @GetMapping("/age/older/{age}")
-    public List<User> getUsersOlderThan(@PathVariable Integer age) {
-        return userRepository.findByAgeGreaterThan(age);
+    public ResponseEntity<List<UserDto>> getUsersOlderThan(@PathVariable Integer age) {
+        List<User> users = userRepository.findByAgeGreaterThan(age);
+
+        List<UserDto> dtos = users.stream()
+                .map(this::convertToDto)
+                .toList();
+
+        return ResponseEntity.ok(dtos);
     }
 
-    // PUT /api/users/5 - обновить пользователя
+    // =========== PUT - обновить пользователя ===========
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Пользователь с id " + id + " не найден"));
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+        // 1. Ищем пользователя
+        User user = userRepository.findById(id).orElse(null);
 
-        // Обновляем поля
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // 2. Обновляем поля
         user.setName(userDetails.getName());
         user.setEmail(userDetails.getEmail());
         user.setAge(userDetails.getAge());
 
-        return userRepository.save(user);  // Сохраняем изменения
+        // 3. Сохраняем
+        User updatedUser = userRepository.save(user);
+
+        // 4. Возвращаем DTO
+        UserDto dto = convertToDto(updatedUser);
+        return ResponseEntity.ok(dto);
     }
 
-    // DELETE /api/users/5 - удалить пользователя
+    // =========== DELETE по id ===========
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        // Проверяем, есть ли пользователь
+        if (!userRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();  // 404 если нет
+        }
+
         userRepository.deleteById(id);
-        return "Пользователь с id " + id + " удален";
+        return ResponseEntity.noContent().build();  // 👈 204 No Content
     }
 
-    // DELETE /api/users/email/anna@mail.com - удалить по email
+    // =========== DELETE по email ===========
     @DeleteMapping("/email/{email}")
-    public String deleteUserByEmail(@PathVariable String email) {
+    public ResponseEntity<Void> deleteUserByEmail(@PathVariable String email) {
         User user = userRepository.findByEmail(email);
-        if (user != null) {
-            userRepository.delete(user);
-            return "Пользователь с email " + email + " удален";
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
         }
-        return "Пользователь с email " + email + " не найден";
+
+        userRepository.delete(user);
+        return ResponseEntity.noContent().build();  // 204 No Content
     }
 }
