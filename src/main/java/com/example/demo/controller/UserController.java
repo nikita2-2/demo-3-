@@ -5,6 +5,7 @@ import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -53,7 +54,6 @@ public class UserController {
     }
 
 
-
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
         UserDto updated = userService.updateUser(id, userDto);
@@ -66,9 +66,5 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/email/{email}")
-    public ResponseEntity<Void> deleteUserByEmail(@PathVariable String email) {
-        userService.deleteUserByEmail(email);
-        return ResponseEntity.noContent().build();
-    }
+
 }

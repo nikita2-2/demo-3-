@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,6 +11,7 @@ public class User {
     @Id  // Первичный ключ
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -28,7 +30,8 @@ public class User {
     private LocalDateTime createdAt;
 
 
-    public User() {}
+    public User() {
+    }
 
 
     public User(String name, String email, Integer age) {
