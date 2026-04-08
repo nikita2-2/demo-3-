@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "users")
-@Data                    // 👈 Lombok: геттеры, сеттеры, toString, equals, hashCode
-@NoArgsConstructor       // 👈 Lombok: конструктор без параметров
-@AllArgsConstructor      // 👈 Lombok: конструктор со всеми параметрами
+@Data                    // Lombok: геттеры, сеттеры
+@NoArgsConstructor       // Lombok: конструктор без параметров
+@AllArgsConstructor      // Lombok: конструктор со всеми параметрами
 public class UserEntity {
 
     @Id
@@ -28,7 +28,7 @@ public class UserEntity {
 
     private Integer age;
 
-    @CreatedDate          // 👈 менторская настройка (оставляем)
+    @CreatedDate          // наша  настройка времени
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 }
