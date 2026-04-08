@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,10 +19,10 @@ public class HelloController {
     @GetMapping("/")
     public String home() {
         return """
-            <h1>Добро пожаловать!</h1>
-            <p>Сервер работает!</p>
-            <p>Попробуйте <a href="/api/hello">/api/hello</a></p>
-            """;
+                <h1>Добро пожаловать!</h1>
+                <p>Сервер работает!</p>
+                <p>Попробуйте <a href="/api/hello">/api/hello</a></p>
+                """;
     }
 
     @GetMapping("/info")
@@ -30,13 +31,13 @@ public class HelloController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
         return """
-            {
-                "appName": "Мое Spring приложение",
-                "version": "1.0.0",
-                "serverTime": "%s",
-                "javaVersion": "%s"
-            }
-            """.formatted(
+                {
+                    "appName": "Мое Spring приложение",
+                    "version": "1.0.0",
+                    "serverTime": "%s",
+                    "javaVersion": "%s"
+                }
+                """.formatted(
                 now.format(formatter),
                 System.getProperty("java.version")
         );
