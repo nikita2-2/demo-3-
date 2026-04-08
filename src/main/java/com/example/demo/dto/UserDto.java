@@ -17,6 +17,7 @@ public class UserDto {
         this.name = name;
         this.email = email;
         this.age = age;
+
     }
 
     // геттеры

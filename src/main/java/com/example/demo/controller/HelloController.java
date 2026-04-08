@@ -40,6 +40,7 @@ public class HelloController {
                 """.formatted(
                 now.format(formatter),
                 System.getProperty("java.version")
+
         );
     }
 }

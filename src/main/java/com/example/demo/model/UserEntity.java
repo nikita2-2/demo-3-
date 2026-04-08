@@ -31,4 +31,5 @@ public class UserEntity {
     @CreatedDate          // наша  настройка времени
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
 }

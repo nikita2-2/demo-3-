@@ -31,6 +31,7 @@ public class FileServiceImpl implements FileService {
     private final FileMapper fileMapper;
     private final FileStorageConfig storageConfig;
 
+
     // Lombok сгенерирует сам
 
     @Override

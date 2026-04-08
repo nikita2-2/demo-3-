@@ -55,5 +55,6 @@ public class FileController {
     public ResponseEntity<Void> deleteFile(@PathVariable Long fileId) {
         fileService.deleteFile(fileId);
         return ResponseEntity.noContent().build();
+
     }
 }

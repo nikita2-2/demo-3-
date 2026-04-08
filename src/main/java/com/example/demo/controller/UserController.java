@@ -44,6 +44,7 @@ public class UserController {
         UserDto user = userService.getUserByEmail(email);
         if (user == null) {
             return ResponseEntity.notFound().build();
+
         }
         return ResponseEntity.ok(user);
     }

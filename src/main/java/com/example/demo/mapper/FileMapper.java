@@ -9,7 +9,10 @@ import org.mapstruct.Mapping;
 public interface FileMapper {
 
     @Mapping(source = "user.id", target = "userId")
+
     FileResponseDto toDto(FileEntity entity);
 
     // файл создаётся через конструктор
+
+
 }

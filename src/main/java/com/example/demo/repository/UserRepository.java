@@ -14,6 +14,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     // Найти всех пользователей с указанным именем
     List<UserEntity> findByName(String name);
 
+
+
     // Найти пользователей старше определенного возраста
     List<UserEntity> findByAgeGreaterThan(Integer age);
 

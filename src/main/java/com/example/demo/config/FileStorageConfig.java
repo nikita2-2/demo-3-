@@ -25,4 +25,5 @@ public class FileStorageConfig {
     public void setMaxFileSize(long maxFileSize) {
         this.maxFileSize = maxFileSize;
     }
+
 }
