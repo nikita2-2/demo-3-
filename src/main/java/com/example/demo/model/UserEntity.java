@@ -1,22 +1,18 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "users")
-public class User {
+public class UserEntity {
 
     @Id  // Первичный ключ
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
-
 
     @Column(nullable = false)  // NOT NULL
     private String name;
@@ -26,15 +22,16 @@ public class User {
 
     private Integer age;  // Может быть null
 
+    @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
 
-    public User() {
+    public UserEntity() {
     }
 
 
-    public User(String name, String email, Integer age) {
+    public UserEntity(String name, String email, Integer age) {
         this.name = name;
         this.email = email;
         this.age = age;
