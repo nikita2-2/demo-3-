@@ -10,4 +10,5 @@ public interface FileService {
     Resource downloadFile(Long fileId) throws java.net.MalformedURLException;  // добавил throws
     List<FileResponseDto> getUserFiles(Long userId);
     void deleteFile(Long fileId);
+
 }

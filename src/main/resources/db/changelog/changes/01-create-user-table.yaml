@@ -27,4 +27,5 @@ databaseChangeLog:
               - column:
                   name: age
                   type: INTEGER
+
                   # updated

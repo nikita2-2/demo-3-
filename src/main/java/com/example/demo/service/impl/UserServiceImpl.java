@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Пользователь с email " + email + " не найден");
         }
         return userMapper.toDto(userEntity);
+
     }
 
     @Override

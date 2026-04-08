@@ -15,4 +15,5 @@ public class FileResponseDto {
     private String contentType;
     private LocalDateTime uploadedAt;
     private Long userId;
+
 }

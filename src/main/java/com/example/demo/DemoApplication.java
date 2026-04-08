@@ -18,5 +18,6 @@ public class DemoApplication {
         System.out.println("Приложение запущено!");
         System.out.println("Всего бинов в контексте: " + context.getBeanDefinitionCount());
         System.out.println("=================================");
+
     }
 }

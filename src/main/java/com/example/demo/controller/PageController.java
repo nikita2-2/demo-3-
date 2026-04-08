@@ -24,6 +24,7 @@ public class PageController {
         model.addAttribute("dayOfWeek", LocalDateTime.now().getDayOfWeek().toString());
 
         // Возвращаем имя HTML-файла (без .html)
+
         return "welcome";
     }
 }

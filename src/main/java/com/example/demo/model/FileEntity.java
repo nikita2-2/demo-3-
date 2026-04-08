@@ -40,4 +40,5 @@ public class FileEntity {
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime uploadedAt;
+
 }
