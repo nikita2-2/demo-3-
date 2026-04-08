@@ -1,5 +1,5 @@
 
-package com.example.demo;
+package com.example.demo.dto;
 
 //  Это наш DTO - то, что увидит клиент
 // Никакой связи с БД, просто конверт для данных
