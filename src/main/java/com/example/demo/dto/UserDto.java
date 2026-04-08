@@ -1,22 +1,17 @@
-
 package com.example.demo.dto;
 
-//  Это наш DTO - то, что увидит клиент
-// Никакой связи с БД, просто конверт для данных
 public class UserDto {
 
-    // 🎯 Только те поля, которые МОЖНО показывать клиенту
     private Long id;
     private String name;
     private String email;
     private Integer age;
-    // ❗ createdAt нет - клиент его не увидит!
 
-    // ⚙️ Конструктор без параметров (требуется для Spring)
+    // Конструктор без параметров (нужен для Spring)
     public UserDto() {
     }
 
-    // ⚙️ Конструктор для удобного создания DTO из User
+    // Конструктор со всеми полями (для удобного создания)
     public UserDto(Long id, String name, String email, Integer age) {
         this.id = id;
         this.name = name;
@@ -24,9 +19,7 @@ public class UserDto {
         this.age = age;
     }
 
-    // 🚪 Геттеры - через них Spring берет данные для JSON
-    // Только для полей, которые хотим показать!
-
+    // ========== ГЕТТЕРЫ ==========
     public Long getId() {
         return id;
     }
@@ -43,7 +36,31 @@ public class UserDto {
         return age;
     }
 
-    // Сеттеры ?
+    // ========== СЕТТЕРЫ ==========
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    // ========== toString (для удобного логирования) ==========
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                '}';
+    }
 }

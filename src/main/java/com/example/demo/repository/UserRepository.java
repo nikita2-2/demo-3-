@@ -1,21 +1,21 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.User;
+import com.example.demo.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
 
     // Найти пользователя по email (вернет одного, т.к. email уникальный)
-    User findByEmail(String email);
+    UserEntity findByEmail(String email);
 
     // Найти всех пользователей с указанным именем
-    List<User> findByName(String name);
+    List<UserEntity> findByName(String name);
 
     // Найти пользователей старше определенного возраста
-    List<User> findByAgeGreaterThan(Integer age);
+    List<UserEntity> findByAgeGreaterThan(Integer age);
 
 
 }
