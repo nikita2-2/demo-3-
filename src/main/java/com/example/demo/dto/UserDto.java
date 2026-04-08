@@ -11,7 +11,7 @@ public class UserDto {
     public UserDto() {
     }
 
-    // Конструктор со всеми полями (для удобного создания)
+    // Конструктор со всеми полями
     public UserDto(Long id, String name, String email, Integer age) {
         this.id = id;
         this.name = name;
@@ -19,7 +19,7 @@ public class UserDto {
         this.age = age;
     }
 
-    // ========== ГЕТТЕРЫ ==========
+    // геттеры
     public Long getId() {
         return id;
     }
@@ -36,7 +36,7 @@ public class UserDto {
         return age;
     }
 
-    // ========== СЕТТЕРЫ ==========
+    // сеттеры
     public void setId(Long id) {
         this.id = id;
     }

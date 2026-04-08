@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/changes/01-create-user-table.yaml
   - include:
       file: db/changelog/changes/02-add-created-at-column.yaml
+  - include:
+      file: db/changelog/changes/03-create-files-table.yaml   #files

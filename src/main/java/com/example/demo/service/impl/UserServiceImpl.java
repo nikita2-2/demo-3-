@@ -5,26 +5,20 @@ import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.UserEntity;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-//todo @RequiredArgsConstructor добавить
 @Service
+@RequiredArgsConstructor  // 👈 Lombok: создаст конструктор для всех final полей
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;        // ВНЕДРЯЕМ МАППЕР
+    private final UserMapper userMapper;
 
-    // todo удалить после добавления argconsrt
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
-
+    // 👇 РУЧНОЙ КОНСТРУКТОР УДАЛЯЕМ (Lombok сгенерирует сам)
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -65,7 +59,6 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
-
     @Override
     public UserDto updateUser(Long id, UserDto userDto) {
         UserEntity userEntity = userRepository.findById(id)
@@ -91,6 +84,4 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.deleteById(id);
     }
-
-
 }
